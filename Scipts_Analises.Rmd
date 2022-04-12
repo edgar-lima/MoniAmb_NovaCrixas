@@ -59,3 +59,19 @@ acjun<- accumresult(jun[,-1],
 acjunto<- accumresult(dados[,- c(1,2)], 
                     method = "random", gamma = "jack1",permutations = 1000)
 ```
+
+2. Calculando o índice de diversidade de Shannon e a sua equabilidade.
+```{r}
+# Março
+shmar<- diversityresult(mar[,-1], index = "Shannon", method = "pooled")
+evmar<- diversityresult(mar[,-1], index = "Jevenness", method = "pooled")
+
+# Junho
+shjun<- diversityresult(jun[,-1], index = "Shannon", method = "pooled")
+evjun<- diversityresult(jun[,-1], index = "Jevenness", method = "pooled")
+
+# Março e junho juntos
+shjunto<- diversityresult(dados[,-c(1,2)], index = "Shannon", method = "pooled")
+evjunto<- diversityresult(dados[,-c(1,2)], index = "Jevenness", method = "pooled")
+```
+
