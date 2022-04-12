@@ -117,6 +117,20 @@ shjunto<- diversityresult(dados[,-c(1,2)], index = "Shannon", method = "pooled")
 evjunto<- diversityresult(dados[,-c(1,2)], index = "Jevenness", method = "pooled")
 ```
 
+2.1. Montando o data frame para a construção do gráfico para o índice de para a equabilidade.
+```{r}
+# Organizando as colunas
+per<- rep(c("Março", "Junho", "Juntos"), each= 2)
+Medida<- rep(c("Shannon", "Equabilidade"), 3)
+div<- c(shmar$Shannon,evmar$Jevenness,shjun$Shannon,
+        evjun$Jevenness, shjunto$Shannon, evjunto$Jevenness)
+
+# Criando o data frame
+diversidade<- data.frame(per, Medida, div)
+colnames(diversidade)<- c("Periodo", "Medida", "Diver")
+View(diversidade)
+```
+
 3. Ajustando a Análise de Correspondência para cada um dos meses e para os dois meses juntos.
 ```{r}
 # Março
