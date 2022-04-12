@@ -96,9 +96,13 @@ acjun2<- acjun2%>%mutate(ic_min= Riqueza - (1.96*SE),
 acjunto2<- acjunto2%>%mutate(ic_min= Riqueza - (1.96*SE),
                          ic_max=  Riqueza + (1.96*SE))
 
+# Juntando os dados de março e junto para contruir os gráficos
+junt<- rbind(acmar2, acjun2)
+mes<-rep(c("Março", "Junho"), each= nrow(mar))
+acum<- data.frame(mes,junt)
+acum$mes<-as.factor(acum$mes)
 #Visualizando o data frame
-View(acmar2)
-View(acjun2)
+View(acum)
 View(acjunto2)
 ```
 
@@ -165,3 +169,6 @@ View(scjun2)
 View(scjunto2)
 ```
 
+# Criando os Gráficos
+
+1. Gráfico de acumulação de espécies. 
