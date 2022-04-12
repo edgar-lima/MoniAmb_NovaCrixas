@@ -4,3 +4,17 @@ author: "Prof. MSc. Edgar Luiz de Lima"
 date: "12/04/2022"
 output: html_document
 ---
+
+
+Carregando os pacotes que serão utilizados.
+```{r}
+library(vegan)
+library(BiodiversityR)
+library(openxlsx)
+library(ggplot2)
+```
+
+Carregando o conjunto de dados.
+```{r}
+dados<-read.xlsx()
+```
