@@ -16,13 +16,15 @@ library(dplyr)
 library(stringr)
 ```
 
-Carregando e visualizando o conjunto de dados.
+# Pré processamento e manipulação do conjunto de dados.
+
+1. Carregando e visualizando o conjunto de dados.
 ```{r}
 dados<-read.xlsx("NovaCrixas2017.xlsx",sheet = 2)
 View(dados)
 str(dados[,c(1,2)])
 ```
-Transformando as colunas Periodo e Ponto em fator.
+2. Transformando as colunas Periodo e Ponto em fator.
 ```{r}
 dados$Periodo<-as.factor(dados$Periodo)
 dados$Ponto<- as.factor(dados$Ponto)
@@ -30,7 +32,7 @@ str(dados[,c(1,2)])
 ```
 
 
-Filtrando a base de dados e criando uma nova base de dados para cada mês.
+3. Filtrando a base de dados e criando uma nova base de dados para cada mês.
 ```{r}
 mar<- dados[dados[,1]=="Marco",]
 jun<- dados[dados[,1]=="Junho",]
@@ -42,3 +44,18 @@ View(mar)
 View(jun)
 ```
 
+# Análise de dados
+
+1. Calculando a curva de acumulação de espécies para os meses de março, junho e para os dois meses juntos.
+
+A curva de acumulação foi construída utilizando mil aleatoriazações e a riqueza estimada foi obtida a partir do método Jacknife de primeira ordem.
+```{r}
+acmar<- accumresult(mar[,-1], 
+                    method = "random",gamma = "jack1", permutations = 1000)
+
+acjun<- accumresult(jun[,-1], 
+                    method = "random", gamma = "jack1",permutations = 1000)
+
+acjunto<- accumresult(dados[,- c(1,2)], 
+                    method = "random", gamma = "jack1",permutations = 1000)
+```
