@@ -95,12 +95,14 @@ acjun2<- acjun2%>%mutate(ic_min= Riqueza - (1.96*SE),
                          ic_max=  Riqueza + (1.96*SE))
 acjunto2<- acjunto2%>%mutate(ic_min= Riqueza - (1.96*SE),
                          ic_max=  Riqueza + (1.96*SE))
+acjunto2$Ponto<- 1:nrow(acjunto2)
 
 # Juntando os dados de março e junto para contruir os gráficos
 junt<- rbind(acmar2, acjun2)
 mes<-rep(c("Março", "Junho"), each= nrow(mar))
 acum<- data.frame(mes,junt)
 acum$mes<-as.factor(acum$mes)
+
 #Visualizando o data frame
 View(acum)
 View(acjunto2)
@@ -171,4 +173,37 @@ View(scjunto2)
 
 # Criando os Gráficos
 
-1. Gráfico de acumulação de espécies. 
+1. Gráfico de acumulação de espécies por mês. 
+```{r}
+ggplot(data = acum, aes(x= Ponto, y= Riqueza,
+                        ymin= ic_min, ymax= ic_max, colour= mes))+
+  geom_point()+
+  geom_pointrange()+
+   scale_color_manual(values = c("darkred", "darkblue"))+
+  scale_x_continuous(breaks = seq(1,12,1), limits = c(1,12))+
+  scale_y_continuous(breaks = seq(5,105,10))+
+  ylab("Riqueza (Jack I)")+
+  xlab("Número de pontos")+
+  labs(colour= "Mês")+
+  theme_bw()+
+  theme(panel.grid = element_blank(),
+        axis.title = element_text(size = 20, colour = "black"),axis.text.x = element_text(size = 16, colour = "black"),axis.text.y = element_text(size = 16, colour = "black"), panel.border = element_rect(size= 1.2),legend.text = element_text(size= 14), legend.title = element_text(size= 16))
+
+  
+```
+
+2. Gráfico de acumulção com os dados dos dois meses juntos.
+```{r}
+ggplot(data = acjunto2, aes(x= Ponto, y= Riqueza,
+                        ymin= ic_min, ymax= ic_max))+
+  geom_point()+
+  geom_pointrange()+
+  scale_x_continuous(breaks = seq(1,24,1), limits = c(1,24))+
+  scale_y_continuous(breaks = seq(5,125,10))+
+  ylab("Riqueza (Jack I)")+
+  xlab("Número de pontos")+
+  theme_bw()+
+  theme(panel.grid = element_blank(),
+        axis.title = element_text(size = 20, colour = "black"),axis.text.x = element_text(size = 16, colour = "black"),axis.text.y = element_text(size = 16, colour = "black"), panel.border = element_rect(size= 1.2))
+
+```
