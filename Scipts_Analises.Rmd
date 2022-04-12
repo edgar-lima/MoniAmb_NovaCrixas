@@ -40,8 +40,13 @@ jun<- dados[dados[,1]=="Junho",]
 mar<- mar[,-1]
 jun<- jun[,-1]
 
+mar$Ponto<- 1:nrow(mar)
+jun$Ponto<- 1:nrow(jun)
+
+dados$Ponto<- rep(1:nrow(mar),2)
 View(mar)
 View(jun)
+View(dados)
 ```
 
 # Análise de dados
@@ -60,6 +65,43 @@ acjunto<- accumresult(dados[,- c(1,2)],
                     method = "random", gamma = "jack1",permutations = 1000)
 ```
 
+1.1. Checando e montando o data frame para a construção do gráfico da curva de acumulação. O data frame já é contruido calculando o erro padrão da riqueza para cada ponto de coleta.
+```{r}
+# Checando o formato como os resultados são dados
+acmar
+
+# Construindo o data frame
+acmar2<- data.frame(mar$Ponto, acmar$richness, acmar$sd/sqrt(nrow(mar)))
+colnames(acmar2)<- c("Ponto", "Riqueza", "SE")
+
+acjun2<- data.frame(jun$Ponto, acjun$richness, acjun$sd/sqrt(nrow(jun)))
+colnames(acjun2)<- c("Ponto", "Riqueza", "SE")
+
+acjunto2<- data.frame(dados$Ponto, acjunto$richness, acjunto$sd/sqrt(nrow(dados)))
+colnames(acjunto2)<- c("Ponto", "Riqueza", "SE")
+
+#Visualizando o data frame
+View(acmar2)
+View(acjun2)
+View(acjunto2)
+```
+
+1.2. Calculando o intervalo de confiança (95%) para a curva de acumulação.
+```{r}
+# Intervalo de confiança
+acmar2<- acmar2%>%mutate(ic_min= Riqueza - (1.96*SE),
+                         ic_max=  Riqueza + (1.96*SE))
+acjun2<- acjun2%>%mutate(ic_min= Riqueza - (1.96*SE),
+                         ic_max=  Riqueza + (1.96*SE))
+acjunto2<- acjunto2%>%mutate(ic_min= Riqueza - (1.96*SE),
+                         ic_max=  Riqueza + (1.96*SE))
+
+#Visualizando o data frame
+View(acmar2)
+View(acjun2)
+View(acjunto2)
+```
+
 2. Calculando o índice de diversidade de Shannon e a sua equabilidade.
 ```{r}
 # Março
@@ -73,5 +115,39 @@ evjun<- diversityresult(jun[,-1], index = "Jevenness", method = "pooled")
 # Março e junho juntos
 shjunto<- diversityresult(dados[,-c(1,2)], index = "Shannon", method = "pooled")
 evjunto<- diversityresult(dados[,-c(1,2)], index = "Jevenness", method = "pooled")
+```
+
+3. Ajustando a Análise de Correspondência para cada um dos meses e para os dois meses juntos.
+```{r}
+# Março
+camar<- cca(mar[,-1])
+scmar<- scores(camar)
+
+# Junho 
+cajun<- cca(jun[,-1])
+scjun<- scores(cajun)
+
+# Março e junho juntos
+cajunto<- cca(dados[,-c(1,2)]~dados[,1])
+r2<-RsquareAdj(cajunto) # Estimando o R² ajustado
+scjunto<- scores(cajunto)
+```
+
+3.1 Retirando e checando os Scores da Análise de Correspondência.
+```{r}
+# Retirando os Scores
+scmar2<- data.frame(mar$Ponto,scmar$sites)
+colnames(scmar2)<- c("Ponto", "CA1", "CA2")
+
+scjun2<- data.frame(jun$Ponto,scjun$sites)
+colnames(scjun2)<- c("Ponto", "CA1", "CA2")
+
+scjunto2<- data.frame(dados$Ponto,scjunto$sites)
+colnames(scjunto2)<- c("Ponto", "CA1", "CA2")
+
+# Visualizando os Scores
+View(scmar2)
+View(scjun2)
+View(scjunto2)
 ```
 
