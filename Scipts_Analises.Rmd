@@ -274,6 +274,7 @@ ggplot(data = scjunto2, aes(x= CA1, y= CA2, colour=Periodo))+
   geom_hline(yintercept = 0.0, linetype=1, size = .8)+
   ylab("CA II")+
   xlab("CA I")+
+  labs(colour= "Período")+
   theme_bw()+
   theme(panel.grid = element_blank(),
         axis.title = element_text(size = 20, colour = "black"),axis.text.x = element_text(size = 16, colour = "black"),axis.text.y = element_text(size = 16, colour = "black"), panel.border = element_rect(size= 1.2), legend.text = element_text(size= 14), legend.title = element_text(size= 16))
