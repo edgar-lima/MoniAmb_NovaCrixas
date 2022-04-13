@@ -190,6 +190,8 @@ ggplot(data = acum, aes(x= Ponto, y= Riqueza,
   theme(panel.grid = element_blank(),
         axis.title = element_text(size = 20, colour = "black"),axis.text.x = element_text(size = 16, colour = "black"),axis.text.y = element_text(size = 16, colour = "black"), panel.border = element_rect(size= 1.2),legend.text = element_text(size= 14), legend.title = element_text(size= 16))
 
+ggsave(filename = "Jack_meses.tiff", width = 48, height = 22, units = "cm", dpi = 200)
+
   
 ```
 
@@ -207,6 +209,7 @@ ggplot(data = acjunto2, aes(x= Ponto, y= Riqueza,
   theme(panel.grid = element_blank(),
         axis.title = element_text(size = 20, colour = "black"),axis.text.x = element_text(size = 16, colour = "black"),axis.text.y = element_text(size = 16, colour = "black"), panel.border = element_rect(size= 1.2))
 
+ggsave(filename = "Jack_juntos.tiff", width = 48, height = 22, units = "cm", dpi = 200)
 ```
 
 3. Gráfico do índice de diversidade de Shannon e de equabilidade.
@@ -221,6 +224,7 @@ ggplot(data = diversidade, aes(x= Periodo, y= Diver, fill= Medida))+
   theme(panel.grid = element_blank(),
         axis.title = element_text(size = 20, colour = "black"),axis.text.x = element_text(size = 16, colour = "black"),axis.text.y = element_text(size = 16, colour = "black"), panel.border = element_rect(size= 1.2),legend.text = element_text(size= 14), legend.title = element_text(size= 16))
   
+ggsave(filename = "Diversidade.tiff", width = 48, height = 22, units = "cm", dpi = 200)
 ```
 
 
@@ -238,6 +242,8 @@ ggplot(data = scmar2, aes(x= CA1, y= CA2))+
   theme(panel.grid = element_blank(),
         axis.title = element_text(size = 20, colour = "black"),axis.text.x = element_text(size = 16, colour = "black"),axis.text.y = element_text(size = 16, colour = "black"), panel.border = element_rect(size= 1.2))
 
+ggsave(filename = "CA_Marco.tiff", width = 48, height = 22, units = "cm", dpi = 200)
+
 ```
 
 4. Gráfico da Análise de Correspondência para o mês de junho.
@@ -254,6 +260,7 @@ ggplot(data = scjun2, aes(x= CA1, y= CA2))+
   theme(panel.grid = element_blank(),
         axis.title = element_text(size = 20, colour = "black"),axis.text.x = element_text(size = 16, colour = "black"),axis.text.y = element_text(size = 16, colour = "black"), panel.border = element_rect(size= 1.2))
 
+ggsave(filename = "CA_Junho.tiff", width = 48, height = 22, units = "cm", dpi = 200)
 ```
 
 4. Gráfico da Análise de Correspondência para o dois meses juntos.
@@ -269,6 +276,7 @@ ggplot(data = scjunto2, aes(x= CA1, y= CA2, colour=Periodo))+
   xlab("CA I")+
   theme_bw()+
   theme(panel.grid = element_blank(),
-        axis.title = element_text(size = 20, colour = "black"),axis.text.x = element_text(size = 16, colour = "black"),axis.text.y = element_text(size = 16, colour = "black"), panel.border = element_rect(size= 1.2))
+        axis.title = element_text(size = 20, colour = "black"),axis.text.x = element_text(size = 16, colour = "black"),axis.text.y = element_text(size = 16, colour = "black"), panel.border = element_rect(size= 1.2), legend.text = element_text(size= 14), legend.title = element_text(size= 16))
 
+ggsave(filename = "CA_Juntos.tiff", width = 48, height = 22, units = "cm", dpi = 200)
 ```
