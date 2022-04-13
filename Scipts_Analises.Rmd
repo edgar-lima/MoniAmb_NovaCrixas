@@ -192,7 +192,7 @@ ggplot(data = acum, aes(x= Ponto, y= Riqueza,
   
 ```
 
-2. Gráfico de acumulção com os dados dos dois meses juntos.
+2. Gráfico de acumulação com os dados dos dois meses juntos.
 ```{r}
 ggplot(data = acjunto2, aes(x= Ponto, y= Riqueza,
                         ymin= ic_min, ymax= ic_max))+
@@ -207,3 +207,18 @@ ggplot(data = acjunto2, aes(x= Ponto, y= Riqueza,
         axis.title = element_text(size = 20, colour = "black"),axis.text.x = element_text(size = 16, colour = "black"),axis.text.y = element_text(size = 16, colour = "black"), panel.border = element_rect(size= 1.2))
 
 ```
+
+3. Gráfico do índice de diversidade de Shannon e de equabilidade.
+```{r}
+ggplot(data = diversidade, aes(x= Periodo, y= Diver, fill= Medida))+
+  geom_bar(stat = "identity", position = "dodge")+
+  scale_fill_manual(values = c("Shannon"= "Darkred", "Equabilidade"="Darkblue"))+
+  scale_y_continuous(breaks = seq(0,3.5,0.5))+
+  ylab("Diversidade")+
+  xlab("Período")+
+  theme_bw()+
+  theme(panel.grid = element_blank(),
+        axis.title = element_text(size = 20, colour = "black"),axis.text.x = element_text(size = 16, colour = "black"),axis.text.y = element_text(size = 16, colour = "black"), panel.border = element_rect(size= 1.2),legend.text = element_text(size= 14), legend.title = element_text(size= 16))
+  
+```
+
