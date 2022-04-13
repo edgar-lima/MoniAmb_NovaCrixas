@@ -222,3 +222,19 @@ ggplot(data = diversidade, aes(x= Periodo, y= Diver, fill= Medida))+
   
 ```
 
+
+4. Gráfico da Análise de Correspondência para o mês de março.
+```{r}
+ggplot(data = scmar2, aes(x= CA1, y= CA2))+
+  geom_point(size= 2)+
+  scale_x_continuous(breaks = seq(-2.5,1,0.5), limits = c(-2.5,1))+
+  scale_y_continuous(breaks = seq(-1,2.5,0.5))+
+  geom_vline(xintercept = 0.0, linetype=1, size = .8)+
+  geom_hline(yintercept = 0.0, linetype=1, size = .8)+
+  ylab("CA II")+
+  xlab("CA I")+
+  theme_bw()+
+  theme(panel.grid = element_blank(),
+        axis.title = element_text(size = 20, colour = "black"),axis.text.x = element_text(size = 16, colour = "black"),axis.text.y = element_text(size = 16, colour = "black"), panel.border = element_rect(size= 1.2))
+
+```
