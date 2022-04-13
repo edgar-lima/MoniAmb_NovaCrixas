@@ -162,8 +162,9 @@ colnames(scmar2)<- c("Ponto", "CA1", "CA2")
 scjun2<- data.frame(jun$Ponto,scjun$sites)
 colnames(scjun2)<- c("Ponto", "CA1", "CA2")
 
-scjunto2<- data.frame(dados$Ponto,scjunto$sites)
-colnames(scjunto2)<- c("Ponto", "CA1", "CA2")
+per2<- rep(c("Março", "Junho"), each= 12)
+scjunto2<- data.frame(per2,dados$Ponto,scjunto$sites)
+colnames(scjunto2)<- c("Periodo","Ponto", "CA1", "CA2")
 
 # Visualizando os Scores
 View(scmar2)
@@ -226,7 +227,7 @@ ggplot(data = diversidade, aes(x= Periodo, y= Diver, fill= Medida))+
 4. Gráfico da Análise de Correspondência para o mês de março.
 ```{r}
 ggplot(data = scmar2, aes(x= CA1, y= CA2))+
-  geom_point(size= 2)+
+  geom_point(size=3)+
   scale_x_continuous(breaks = seq(-2.5,1,0.5), limits = c(-2.5,1))+
   scale_y_continuous(breaks = seq(-1,2.5,0.5))+
   geom_vline(xintercept = 0.0, linetype=1, size = .8)+
@@ -242,9 +243,26 @@ ggplot(data = scmar2, aes(x= CA1, y= CA2))+
 4. Gráfico da Análise de Correspondência para o mês de junho.
 ```{r}
 ggplot(data = scjun2, aes(x= CA1, y= CA2))+
-  geom_point(size= 2.5)+
+  geom_point(size= 3)+
   scale_x_continuous(breaks = seq(-1,3.5,0.5))+
   scale_y_continuous(breaks = seq(-1,4,0.5))+
+  geom_vline(xintercept = 0.0, linetype=1, size = .8)+
+  geom_hline(yintercept = 0.0, linetype=1, size = .8)+
+  ylab("CA II")+
+  xlab("CA I")+
+  theme_bw()+
+  theme(panel.grid = element_blank(),
+        axis.title = element_text(size = 20, colour = "black"),axis.text.x = element_text(size = 16, colour = "black"),axis.text.y = element_text(size = 16, colour = "black"), panel.border = element_rect(size= 1.2))
+
+```
+
+4. Gráfico da Análise de Correspondência para o dois meses juntos.
+```{r}
+ggplot(data = scjunto2, aes(x= CA1, y= CA2, colour=Periodo))+
+  geom_point(size= 3)+
+  scale_x_continuous(breaks = seq(-1.5,3.0,0.5))+
+  scale_y_continuous(breaks = seq(-6.5,1.5,0.5))+
+  scale_color_manual(values = c("darkred", "darkblue"))+
   geom_vline(xintercept = 0.0, linetype=1, size = .8)+
   geom_hline(yintercept = 0.0, linetype=1, size = .8)+
   ylab("CA II")+
