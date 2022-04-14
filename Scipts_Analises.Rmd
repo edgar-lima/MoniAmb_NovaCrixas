@@ -53,7 +53,7 @@ View(dados)
 
 1. Calculando a curva de acumulação de espécies para os meses de março, junho e para os dois meses juntos.
 
-A curva de acumulação foi construída utilizando mil aleatoriazações e a riqueza estimada foi obtida a partir do método Jacknife de primeira ordem.
+A curva de acumulação foi construída utilizando mil aleatoriazações e a riqueza estimada foi obtida a partir do método Jackknife de primeira ordem.
 ```{r}
 acmar<- accumresult(mar[,-1], 
                     method = "random",gamma = "jack1", permutations = 1000)
@@ -135,6 +135,7 @@ div<- c(shmar$Shannon,evmar$Jevenness,shjun$Shannon,
 diversidade<- data.frame(per, Medida, div)
 colnames(diversidade)<- c("Periodo", "Medida", "Diver")
 View(diversidade)
+write.xlsx(diversidade, "Div.xlsx", row.names= F)
 ```
 
 3. Ajustando a Análise de Correspondência para cada um dos meses e para os dois meses juntos.
@@ -172,6 +173,16 @@ View(scjun2)
 View(scjunto2)
 ```
 
+3.2. Tabela com o número dos pontos de que distânciaram nos grupos da CA.
+```{r}
+jann<- data.frame(scjun2[c(1, 3,12),])
+jann$Ponto<- c("P1", "P3","P12")
+
+juann<- data.frame(scjunto2[c(1, 2,4,13),])
+juann$Ponto<- c("P1", "P2","P4", "P1")
+```
+
+
 # Criando os Gráficos
 
 1. Gráfico de acumulação de espécies por mês. 
@@ -190,7 +201,7 @@ ggplot(data = acum, aes(x= Ponto, y= Riqueza,
   theme(panel.grid = element_blank(),
         axis.title = element_text(size = 20, colour = "black"),axis.text.x = element_text(size = 16, colour = "black"),axis.text.y = element_text(size = 16, colour = "black"), panel.border = element_rect(size= 1.2),legend.text = element_text(size= 14), legend.title = element_text(size= 16))
 
-ggsave(filename = "Jack_meses.tiff", width = 48, height = 22, units = "cm", dpi = 200)
+ggsave(filename = "Jack_meses.tiff", width = 35, height = 22, units = "cm", dpi = 200)
 
   
 ```
@@ -209,7 +220,7 @@ ggplot(data = acjunto2, aes(x= Ponto, y= Riqueza,
   theme(panel.grid = element_blank(),
         axis.title = element_text(size = 20, colour = "black"),axis.text.x = element_text(size = 16, colour = "black"),axis.text.y = element_text(size = 16, colour = "black"), panel.border = element_rect(size= 1.2))
 
-ggsave(filename = "Jack_juntos.tiff", width = 48, height = 22, units = "cm", dpi = 200)
+ggsave(filename = "Jack_juntos.tiff", width = 35, height = 22, units = "cm", dpi = 200)
 ```
 
 3. Gráfico do índice de diversidade de Shannon e de equabilidade.
@@ -236,13 +247,14 @@ ggplot(data = scmar2, aes(x= CA1, y= CA2))+
   scale_y_continuous(breaks = seq(-1,2.5,0.5))+
   geom_vline(xintercept = 0.0, linetype=1, size = .8)+
   geom_hline(yintercept = 0.0, linetype=1, size = .8)+
+  annotate("text",y= scmar2$CA2+0.1, x= scmar2$CA1,label=scmar2$Ponto, size= 6)+
   ylab("CA II")+
   xlab("CA I")+
   theme_bw()+
   theme(panel.grid = element_blank(),
         axis.title = element_text(size = 20, colour = "black"),axis.text.x = element_text(size = 16, colour = "black"),axis.text.y = element_text(size = 16, colour = "black"), panel.border = element_rect(size= 1.2))
 
-ggsave(filename = "CA_Marco.tiff", width = 48, height = 22, units = "cm", dpi = 200)
+ggsave(filename = "CA_Marco.tiff", width = 35, height = 22, units = "cm", dpi = 200)
 
 ```
 
@@ -250,6 +262,7 @@ ggsave(filename = "CA_Marco.tiff", width = 48, height = 22, units = "cm", dpi = 
 ```{r}
 ggplot(data = scjun2, aes(x= CA1, y= CA2))+
   geom_point(size= 3)+
+  annotate("text",y= scjun2$CA2, x= scjun2$CA1-0.05,label=scjun2$Ponto, size= 6)+
   scale_x_continuous(breaks = seq(-1,3.5,0.5))+
   scale_y_continuous(breaks = seq(-1,4,0.5))+
   geom_vline(xintercept = 0.0, linetype=1, size = .8)+
@@ -260,7 +273,7 @@ ggplot(data = scjun2, aes(x= CA1, y= CA2))+
   theme(panel.grid = element_blank(),
         axis.title = element_text(size = 20, colour = "black"),axis.text.x = element_text(size = 16, colour = "black"),axis.text.y = element_text(size = 16, colour = "black"), panel.border = element_rect(size= 1.2))
 
-ggsave(filename = "CA_Junho.tiff", width = 48, height = 22, units = "cm", dpi = 200)
+ggsave(filename = "CA_Junho.tiff", width = 35, height = 22, units = "cm", dpi = 200)
 ```
 
 4. Gráfico da Análise de Correspondência para o dois meses juntos.
@@ -272,6 +285,7 @@ ggplot(data = scjunto2, aes(x= CA1, y= CA2, colour=Periodo))+
   scale_color_manual(values = c("darkred", "darkblue"))+
   geom_vline(xintercept = 0.0, linetype=1, size = .8)+
   geom_hline(yintercept = 0.0, linetype=1, size = .8)+
+  annotate("text",y= scjunto2$CA2, x= scjunto2$CA1-0.05,label=scjunto2$Ponto, size= 6)+
   ylab("CA II")+
   xlab("CA I")+
   labs(colour= "Período")+
@@ -279,5 +293,5 @@ ggplot(data = scjunto2, aes(x= CA1, y= CA2, colour=Periodo))+
   theme(panel.grid = element_blank(),
         axis.title = element_text(size = 20, colour = "black"),axis.text.x = element_text(size = 16, colour = "black"),axis.text.y = element_text(size = 16, colour = "black"), panel.border = element_rect(size= 1.2), legend.text = element_text(size= 14), legend.title = element_text(size= 16))
 
-ggsave(filename = "CA_Juntos.tiff", width = 48, height = 22, units = "cm", dpi = 200)
+ggsave(filename = "CA_Juntos.tiff", width = 35, height = 22, units = "cm", dpi = 200)
 ```
