@@ -3,9 +3,9 @@
 .Rapp.history
 
 # Elementos
-*.tiff
-Relatorio_NovaCrixas.docx
-.tmp
+/.tiff
+/.docx
+/.tmp
 
 # Session Data files
 .RData
